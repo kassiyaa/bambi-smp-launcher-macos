@@ -27,32 +27,3 @@ jobs:
           name: Bambi-SMP-Launcher-0.4.33-mac-universal
           path: app/dist/*.dmg
           if-no-files-found: error
-name: Build macOS launcher
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: cat BambiSMP-Launcher-0.4.33-macOS-source.zip.part-001 BambiSMP-Launcher-0.4.33-macOS-source.zip.part-002 > BambiSMP-Launcher-0.4.33-macOS-source.zip
-      - run: unzip -q BambiSMP-Launcher-0.4.33-macOS-source.zip -d app
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-          cache-dependency-path: app/pnpm-lock.yaml
-      - run: pnpm install --frozen-lockfile
-        working-directory: app
-      - run: pnpm dist
-        working-directory: app
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Bambi-SMP-Launcher-0.4.33-mac-universal
-          path: app/dist/*.dmg
-          if-no-files-found: error
